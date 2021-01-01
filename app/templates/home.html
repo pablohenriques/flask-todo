@@ -1,0 +1,69 @@
+{% extends "index.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    <div>
+        <form action="/adicionar-tarefa" method="POST">
+            <div class="mb-3 row">
+                <label class="form-label" for="input-tarefa">Escreva uma tarefa:</label>
+                <div class="col-9">
+                    <input id="input-tarefa" class="form-control" placeholder="Descreva aqui" name="conteudo_tarefa">
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary" type="submit">Adicionar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row text-center">
+        <h2 class="fst-italic">Tarefas</h2>
+    </div>
+    <table class="table table-striped text-center">
+        <tr>
+            <th>Tarefa</th>
+            <th>Data de Criação</th>
+            <th>Ações</th>
+        </tr>
+        {% for tarefa in tarefas %}
+            <tr>
+                <td>{{tarefa.content}}</td>
+                <td>{{ tarefa.date_created.strftime("%d-%m-%Y") }}</td>
+                <td>
+                    <div class="row">
+                        <div class="col">
+                            <a href="/atualizar-tarefa/{{tarefa.id}}" class="text-decoration-none text-white">
+                                <button class="btn btn-primary btn-sm">Editar</button>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="/deletar-tarefa/{{tarefa.id}}" class="text-decoration-none text-white">
+                                <button class="btn btn-danger btn-sm">Deletar</button>
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+{% block script %}
+    <script>
+        var alertList = document.querySelectorAll('.alert')
+        alertList.forEach(function (alert) {
+            new bootstrap.Alert(alert)
+        })
+    </script>
+{% endblock %}

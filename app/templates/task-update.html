@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <div>
+        <form action="/atualizar-tarefa/{{ tarefa.id }}" method="POST">
+            <div class="mb-3 row">
+                <label class="form-label" for="input-tarefa">Escreva uma tarefa:</label>
+                <div class="col-9">
+                    <input id="input-tarefa" class="form-control" placeholder="Descreva aqui" name="conteudo_tarefa" value="{{ tarefa.content }}">
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary" type="submit">Atualizar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
